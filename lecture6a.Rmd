@@ -1,0 +1,107 @@
+---
+title: "Lecture 6a -- Collaborating with Git"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Collaborating in git
+
+To set up collaboration, everybody needs to get the same repository on their computer. You can share access to a repository you manage by clicking on Settings -> Manage access -> Invite a Collaborator.
+
+Once a collaborator has access, they too can make changes to the files in the repository and sync them back to GitHub.
+
+But what happens if two people try to change the same file?
+
+Git has a really nice system for dealing with this!
+
+
+The workflow goes like this:
+
+1. When you start work, `pull` to sync the most recent version of the repository to your computer.
+2. do work
+3. `commit` your changes often. This saves a snapshot to your computer.
+4. repeat steps 2-3 until at a good stopping place
+5. `pull` again to sync any new changes to the remote repository to your computer.
+6. resolve any conflicts
+7. `push` to sync your local version back to the remote repository.
+
+# Conflicts
+
+Suppose you are working on a file about the solar system, called `planets.md`.  While you are working, a collaborator makes changes to the file and syncs those changes to the remote server. Now there are two versions of the file! 
+
+
+Your file:
+```
+Some text here.
+
+There are nine planets in the solar system.
+
+Yup, that's how many planets there are.
+```
+
+The collaborator's version of the file, which is on GitHub, looks like this:
+
+```
+Some text here.
+
+There are eight planets in the solar system, because Pluto isn't a planet.
+
+Yup, that's how many planets there are.
+```
+
+When you `pull` to sync from the remote server, Git will notice that there is a conflict between your version of the file and your collaborator's. Git will notice this and give you a message like this:
+
+
+```
+git status
+# # On branch branch-b
+# # You have unmerged paths.
+# #   (fix conflicts and run "git commit")
+# #
+# # Unmerged paths:
+# #   (use "git add ..." to mark resolution)
+# #
+# # both modified:      planets.md
+# #
+# no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+
+If you open up planets.md on your computer, you now see something like:
+
+```
+Some text here.
+
+There are
+<<<<<<< HEAD
+nine
+=======
+eight
+>>>>>>> master
+
+planets in the solar system.
+yup, that's how many planets there are.
+```
+
+You said there were nine planets, the other person said there were eight. (Who is right???)
+
+So you just edit the file as normal, removing all the <<<< business and picking the version that you like. It might be what you had, or what they had, or something in between:
+
+```
+blah blah blah blah.
+doopy doo.
+
+
+the number of planets are in dispute; some say there are eight, some say there are nine. It depends whether we count Pluto.
+
+yup, that's how many planets there are.
+```
+
+Stage this and commit and now push. 
+
+When your collaborator gets to work, she starts by pulling. Your change will come through to her!
+
+See more, including this example, here: https://help.github.com/articles/resolving-a-merge-conflict-from-the-command-line/
