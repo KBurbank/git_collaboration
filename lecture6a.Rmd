@@ -9,42 +9,51 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Collaborating in git
 
-To set up collaboration, everybody needs to get the same repository on their computer.  Then, the workflow goes like this:
+To set up collaboration, everybody needs to get the same repository on their computer. You can share access to a repository you manage by clicking on Settings -> Manage access -> Invite a Collaborator.
 
-1. pull
+Once a collaborator has access, they too can make changes to the files in the repository and sync them back to GitHub.
+
+But what happens if two people try to change the same file?
+
+Git has a really nice system for dealing with this!
+
+
+The workflow goes like this:
+
+1. When you start work, `pull` to sync the most recent version of the repository to your computer.
 2. do work
-3. commit
+3. `commit` your changes often. This saves a snapshot to your computer.
 4. repeat steps 2-3 until at a good stopping place
-5. pull again
+5. `pull` again to sync any new changes to the remote repository to your computer.
 6. resolve any conflicts
-7. push
+7. `push` to sync your local version back to the remote repository.
 
 # Conflicts
 
-You are working on a file called planets.md. There is a line that you have modified, but it's also been modified by somebody else recently!  It looks like this:
+Suppose you are working on a file about the solar system, called `planets.md`.  While you are working, a collaborator makes changes to the file and syncs those changes to the remote server. Now there are two versions of the file! 
+
 
 Your file:
 ```
-blah blah blah blah.
-doopy doo.
+Some text here.
 
-the number of planets are nine.
+There are nine planets in the solar system.
 
-yup, that's how many planets there are.
+Yup, that's how many planets there are.
 ```
 
-Their file, that they committed:
+The collaborator's version of the file, which is on GitHub, looks like this:
 
 ```
-blah blah blah blah.
-doopy doo.
+Some text here.
 
-the number of planets are eight.
+There are eight planets in the solar system, because Pluto isn't a planet.
 
-yup, that's how many planets there are.
+Yup, that's how many planets there are.
 ```
 
-After you commit your changes, and then pull, you will get an error that looks like this:
+When you `pull` to sync from the remote server, Git will notice that there is a conflict between your version of the file and your collaborator's. Git will notice this and give you a message like this:
+
 
 ```
 git status
@@ -60,20 +69,20 @@ git status
 # no changes added to commit (use "git add" and/or "git commit -a")
 ```
 
+
 If you open up planets.md on your computer, you now see something like:
 
 ```
-blah blah blah blah.
-doopy doo.
+Some text here.
 
-
-the number of planets are
+There are
 <<<<<<< HEAD
 nine
 =======
 eight
 >>>>>>> master
 
+planets in the solar system.
 yup, that's how many planets there are.
 ```
 
