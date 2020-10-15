@@ -1,0 +1,98 @@
+---
+title: "Lecture 6a -- Collaborating with Git"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Collaborating in git
+
+To set up collaboration, everybody needs to get the same repository on their computer.  Then, the workflow goes like this:
+
+1. pull
+2. do work
+3. commit
+4. repeat steps 2-3 until at a good stopping place
+5. pull again
+6. resolve any conflicts
+7. push
+
+# Conflicts
+
+You are working on a file called planets.md. There is a line that you have modified, but it's also been modified by somebody else recently!  It looks like this:
+
+Your file:
+```
+blah blah blah blah.
+doopy doo.
+
+the number of planets are nine.
+
+yup, that's how many planets there are.
+```
+
+Their file, that they committed:
+
+```
+blah blah blah blah.
+doopy doo.
+
+the number of planets are eight.
+
+yup, that's how many planets there are.
+```
+
+After you commit your changes, and then pull, you will get an error that looks like this:
+
+```
+git status
+# # On branch branch-b
+# # You have unmerged paths.
+# #   (fix conflicts and run "git commit")
+# #
+# # Unmerged paths:
+# #   (use "git add ..." to mark resolution)
+# #
+# # both modified:      planets.md
+# #
+# no changes added to commit (use "git add" and/or "git commit -a")
+```
+
+If you open up planets.md on your computer, you now see something like:
+
+```
+blah blah blah blah.
+doopy doo.
+
+
+the number of planets are
+<<<<<<< HEAD
+nine
+=======
+eight
+>>>>>>> master
+
+yup, that's how many planets there are.
+```
+
+You said there were nine planets, the other person said there were eight. (Who is right???)
+
+So you just edit the file as normal, removing all the <<<< business and picking the version that you like. It might be what you had, or what they had, or something in between:
+
+```
+blah blah blah blah.
+doopy doo.
+
+
+the number of planets are in dispute; some say there are eight, some say there are nine. It depends whether we count Pluto.
+
+yup, that's how many planets there are.
+```
+
+Stage this and commit and now push. 
+
+When your collaborator gets to work, she starts by pulling. Your change will come through to her!
+
+See more, including this example, here: https://help.github.com/articles/resolving-a-merge-conflict-from-the-command-line/
